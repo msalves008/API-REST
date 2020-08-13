@@ -1,0 +1,26 @@
+{
+  "name": "api_rest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msalves008/API-REST.git"
+  },
+  "keywords": [
+    "API"
+  ],
+  "author": "Matheus de Sousa Alves",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/msalves008/API-REST/issues"
+  },
+  "homepage": "https://github.com/msalves008/API-REST#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
+}
