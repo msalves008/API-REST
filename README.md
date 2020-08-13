@@ -3,7 +3,7 @@
 
 
 ### Dependencias 
-Para Instalar as Dependencias deste projetos digite:
+Para Instalar as Dependencias deste projetos digite:<br>
 -npm install
 
 ###
