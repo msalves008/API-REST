@@ -25,7 +25,7 @@ router.get('/:id_pedidos',(req, res,next)=>{
         })
     }else{
         res.status(200).send({
-            mensagem: "buscando produt com Id",
+            mensagem: "buscando pedidos com Id",
             id: id
         })
     }    
