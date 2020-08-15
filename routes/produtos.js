@@ -38,7 +38,7 @@ router.post('/', (req, res, next) => {
         conn.query(
             'INSERT INTO produtos (nome, preco) VALUES (?,?)',
             [req.body.nome, req.body.preco],
-            (error, resultado, field) => {
+            (error, result, field) => {
                 conn.release()
                 if (error) {
                     return res.status(500).send({
@@ -49,7 +49,7 @@ router.post('/', (req, res, next) => {
                 const response ={
                     mensagem : 'PRODUTO INSERIDO COM SUCESSO',
                     produtoCriado: {
-                        id_produto: resultado.id_produto,
+                        id_produto: result.id_produto,
                         nome: req.body.nome,
                         preco: req.body.preco,
                         requst: {
@@ -72,9 +72,26 @@ router.get('/:id_produto', (req, res, next) => {
         conn.query(
             'SELECT * FROM PRODUTOS WHERE id_produto = ?;',
             [req.params.id_produto],
-            (error, resultado, fields) => {
+            (error, result, fields) => {
                 if(error) { return res.status(500).send({error: error})}
-                return res.status(200).send({response: resultado})
+                if(result.length == 0){
+                    return res.status(404).send({
+                        mensagem: 'NÃO FOI ENCONTRADO PRODUTO COM ESTE ID'
+                    })
+                }
+                const response ={                   
+                    produto: {
+                        id_produto: result[0].id_produto,
+                        nome: result[0].nome,
+                        preco: result[0].preco,
+                        requst: {
+                            tipo: 'GET',
+                            descricao:'RETORNA UM PRODUTO',
+                            url: 'http:localhost:3000/produtos'
+                        }
+                    }
+                }
+                return res.status(200).send(response)
             }
         )
     })
@@ -87,7 +104,7 @@ router.patch('/', (req, res, next) => {
         conn.query(
             `UPDATE produtos SET nome = ?, preco = ? WHERE id_produto = ?`,
             [req.body.nome, req.body.preco, req.body.id_produto],
-            (error, resultado, field) => {
+            (error, result, field) => {
                 conn.release()
                 if (error) {
                     return res.status(500).send({
@@ -95,9 +112,20 @@ router.patch('/', (req, res, next) => {
                         response: null
                     })
                 }
-                res.status(202).send({
-                    mensagem: "PRODUTO ATUALIZADO COM SUCESSO"                    
-                })
+                const response ={
+                    mensagem : 'PRODUTO ATUALIZADO COM SUCESSO',
+                    produtoAtualizado: {
+                        id_produto: req.body.id_produto,
+                        nome: req.body.nome,
+                        preco: req.body.preco,
+                        requst: {
+                            tipo: 'POST',
+                            descricao:'ATUALIZA UM PRODUTO',
+                            url: 'http:localhost:3000/produtos' + req.body.id_produto
+                        }
+                    }
+                }
+                res.status(202).send(response)
             }
         )
     })
@@ -110,14 +138,14 @@ router.delete('/:id_produto', (req, res, next) => {
         conn.query(
             `DELETE FROM produtos WHERE id_produto = ?`,
             [req.params.id_produto],
-            (error, resultado, field) => {
+            (error, result, field) => {
                 conn.release()
                 if (error) {
                     return res.status(500).send({
                         error: error,
                         response: null
                     })
-                }
+                }               
                 res.status(200).send({
                     mensagem: "PRODUTO REMOVIDO COM SUCESSO"                    
                 })
