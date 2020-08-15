@@ -8,9 +8,24 @@ router.get('/', (req, res, next) => {
         if(error) { return res.status(500).send({error: error})}
         conn.query(
             'SELECT * FROM PRODUTOS;',
-            (error, resultado, fields) => {
+            (error, result, fields) => {
                 if(error) { return res.status(500).send({error: error})}
-                return res.status(200).send({response: resultado})
+                const response = {
+                    quantidade: result.length,
+                    produtos: result.map(prod=>{
+                        return{
+                            id_produto: prod.id_produto,
+                            nome: prod.nome,
+                            preco: prod.preco,
+                            requst: {
+                                tipo: 'GET',
+                                descricao:'Retorna todos os produtos',
+                                url: 'http:localhost:3000/produtos/'+ prod.id_produto
+                            }
+                        }
+                    })
+                }
+                return res.status(200).send({response})
             }
         )
     })
@@ -31,10 +46,20 @@ router.post('/', (req, res, next) => {
                         response: null
                     })
                 }
-                res.status(201).send({
-                    mensagem: "PRODUTO INSERIDO COM SUCESSO",
-                    id_produto: resultado.insertId
-                })
+                const response ={
+                    mensagem : 'PRODUTO INSERIDO COM SUCESSO',
+                    produtoCriado: {
+                        id_produto: resultado.id_produto,
+                        nome: req.body.nome,
+                        preco: req.body.preco,
+                        requst: {
+                            tipo: 'POST',
+                            descricao:'INSERE UM PRODUTO',
+                            url: 'http:localhost:3000/produtos'
+                        }
+                    }
+                }
+                res.status(201).send(response)
             }
         )
     })
