@@ -25,9 +25,9 @@ router.get('/', (req, res, next) => {
                                 id_produto: pedido.id_produto,
                                 nome: pedido.nome,
                                 preco: pedido.preco
-                            },
+                            },                        
+
                             
-                           
                             requst: {
                                 tipo: 'GET',
                                 descricao: 'Retorna todos os pedidos',
