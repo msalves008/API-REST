@@ -3,6 +3,9 @@ const router = express.Router()
 const mysql = require('../mysql').pool
 const multer = require('multer')
 
+// constante login é responsavel por passar o token de autenticação pra dentro da api
+const login = require('../middleware/login') 
+
 const storage =  multer.diskStorage({
     destination: function (req, file, cb){
         cb(null, './uploads/')
@@ -59,7 +62,7 @@ router.get('/', (req, res, next) => {
 })
 
 //insere um produto
-router.post('/', upload.single('produto_image'), (req, res, next) => {
+router.post('/', login.obrigatorio, upload.single('produto_image'), (req, res, next) => {
     console.log(req.file)
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({error: error})}
