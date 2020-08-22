@@ -20,10 +20,4 @@ router.patch('/:id_pedido', pedidosController.patchPedidos)
 router.delete('/:id_pedido', pedidosController.deletePedidos)
 
 
-
-
-
-
-
-
 module.exports = router
