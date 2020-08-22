@@ -44,6 +44,32 @@ router.post('/cadastro',(req,res, next)=>{
     })
 })
 
+router.post('/login',(req, res,next)=>{
+    mysql.getConnection((error,conn)=>{
+        if(error){ return res.status(500).send({error:error})}
+        const query = `SELECT * FROM usuarios WHERE email = ?`
+        conn.query(query,[req.body.email],(error,results,fields)=>{
+            conn.release()
+            if(error){ return res.status(500).send({error:error})}
+            if (results.length<1){
+                return res.status(401).send({mensagem: 'Falha na autenticação'})
+            }
+            // comparar senha digitata com senha hash armazenada no banco
+            bcrypt.compare(req.body.senha, results[0].senha, (err, result)=>{
+                if(err){
+                    return res.status(401).send({mensagem: 'Falha na autenticação'})
+                }
+                if(result){
+                    return res.status(200).send({
+                        mensagem: 'autenticado com sucesso'
+                    })
+                }
+                return res.status(401).send({mensagem: 'E-mail ou senha Incorreto'})
+            })
+        })
+    })
+})
+
 
 
 
