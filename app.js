@@ -3,15 +3,16 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 
+
 // produtos
 const rotaProdutos = require('./routes/produtos')
 //pedidos
 const rotaPedidos = require('./routes/pedidos')
 
 app.use(morgan('dev')) // monitora e exibe as requisições que estão sendo chamadas na aplicação
+app.use('/uploads', express.static('uploads'));// deixa o diretorio de uploads disponivel publicamente
 app.use(bodyParser.urlencoded({extended: false})) // apenas dados simples
 app.use(bodyParser.json()) // definindo Json como valor unico de entrada
-
 app.use((req, res, next)=>{
     res.header('Access-Control-Allow-Origin', '*') //liberando o acesso da APi Para todos os servidores, caso queira limitaro acesso ha um servidor especifico subistitua * pelo link do servidor EX: http:Servidor.com.br
     
