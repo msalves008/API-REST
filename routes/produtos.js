@@ -5,7 +5,7 @@ const multer = require('multer')
 
 const storage =  multer.diskStorage({
     destination: function (req, file, cb){
-        cb(null, './uploads')
+        cb(null, './uploads/')
     },
     filename: function (req, file, cb){
         let data = new Date().toISOString().replace(/:/g, '-') + '-';
@@ -80,7 +80,7 @@ router.post('/', upload.single('produto_image'), (req, res, next) => {
                         id_produto: result.id_produto,
                         nome: req.body.nome,
                         preco: req.body.preco,
-                        imagem_produto: req.file.path,
+                        imagem_produto: req.file.path.replace(/\\/g, '/'),
                         requst: {
                             tipo: 'POST',
                             descricao:'INSERE UM PRODUTO',
