@@ -8,6 +8,8 @@ const bodyParser = require('body-parser')
 const rotaProdutos = require('./routes/produtos')
 //pedidos
 const rotaPedidos = require('./routes/pedidos')
+//usuarios
+const rotaUsuarios = require('./routes/usuarios')
 
 app.use(morgan('dev')) // monitora e exibe as requisições que estão sendo chamadas na aplicação
 app.use('/uploads', express.static('uploads'));// deixa o diretorio de uploads disponivel publicamente
@@ -34,6 +36,8 @@ da requisição (post, get, delete,...) dentro de rotas produtos */
 app.use('/produtos', rotaProdutos) 
 
 app.use('/pedidos', rotaPedidos)
+
+app.use('/usuarios', rotaUsuarios)
 
 // rorta alternativa, caso a requisição chamada não seja nenhuma das anteriores 
 app.use((req, res, next)=>{
