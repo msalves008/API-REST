@@ -131,7 +131,7 @@ router.get('/:id_produto', (req, res, next) => {
 })
 
 //Atualiza um produto
-router.patch('/', (req, res, next) => {
+router.patch('/', login.obrigatorio,(req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({error: error})}
         conn.query(
@@ -165,7 +165,7 @@ router.patch('/', (req, res, next) => {
 })
 
 //Deleta um produto
-router.delete('/:id_produto', (req, res, next) => {
+router.delete('/:id_produto',login.obrigatorio, (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if(error) { return res.status(500).send({error: error})}
         conn.query(
