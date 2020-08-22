@@ -1,4 +1,4 @@
-# API-REST - EM DESENVOLVIMENTO 
+# API-REST 
 
 ### Objetivos
 A construção desta API tem como objetivo aprimomarar meus conhecimentos,<br>
